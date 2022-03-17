@@ -1,5 +1,6 @@
 import { add } from '#/ad/adder.ts'
 import { add as d } from '#/ad/adt/adder.ts'
+import { add as adsd } from 'ad/adder'
 import express from 'express'
 
 exports = {}

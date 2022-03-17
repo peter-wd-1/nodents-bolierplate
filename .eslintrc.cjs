@@ -8,12 +8,12 @@ module.exports = {
   },
   plugins: ['prettier', 'jest', 'markdown'],
   extends: [
-    'airbnb',
     'prettier',
     'plugin:jest/all',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
+    'airbnb',
   ],
   rules: {
     'prettier/prettier': 'error',
@@ -26,7 +26,7 @@ module.exports = {
     'jest/prefer-expect-assertions': 'off',
     'jest/no-test-return-statement': 'off',
     'import/prefer-default-export': 'off',
-    'semi':'off',
+    semi: 'off',
   },
   settings: {
     'import/resolver': {
