@@ -1,8 +1,11 @@
-import { add } from 'ad/adder.ts'
+import { add } from '#/ad/adder.ts'
+import { add as d } from '#/ad/adt/adder.ts'
 import express from 'express'
 
 exports = {}
 const app = express()
+
+console.log(d)
 
 app.listen(3000, () => {
   console.log(`Server Listening on port ${port}`)
