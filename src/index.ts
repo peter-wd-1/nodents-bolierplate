@@ -1,6 +1,6 @@
 import { add } from '#/ad/adder'
 import { add as d } from '#/ad/adt/adder'
-import a from 'imptest'
+import a from 'adda/imptest'
 import express from 'express'
 
 exports = {}

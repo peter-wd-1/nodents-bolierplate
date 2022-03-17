@@ -4,12 +4,10 @@ module.exports = {
   env: {
     node: true,
     es6: true,
-    'jest/globals': true,
   },
-  plugins: ['prettier', 'jest', 'markdown'],
+  plugins: ['prettier'],
   extends: [
     'prettier',
-    'plugin:jest/all',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
@@ -17,14 +15,6 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'error',
-    'jest/no-disabled-tests': 'warn',
-    'jest/no-focused-tests': 'error',
-    'jest/no-identical-title': 'error',
-    'jest/prefer-to-have-length': 'warn',
-    'jest/valid-expect': 'error',
-    'jest/expect-expect': 'off',
-    'jest/prefer-expect-assertions': 'off',
-    'jest/no-test-return-statement': 'off',
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
     semi: 'off',
@@ -34,4 +24,21 @@ module.exports = {
       typescript: {},
     },
   },
+  overrides: [
+    {
+      files: ['**/*.test.ts'],
+      env: { jest: true },
+      plugins: ['jest'],
+      rules: {
+        'jest/no-disabled-tests': 'warn',
+        'jest/no-focused-tests': 'error',
+        'jest/no-identical-title': 'error',
+        'jest/prefer-to-have-length': 'warn',
+        'jest/valid-expect': 'error',
+        'jest/expect-expect': 'off',
+        'jest/prefer-expect-assertions': 'off',
+        'jest/no-test-return-statement': 'off',
+      },
+    },
+  ],
 }
