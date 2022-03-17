@@ -1,11 +1,15 @@
-import { add } from 'ad/adder.ts'
+import { add } from '#/src/adder'
+import { add as ad } from '#/src/ad/adder'
+
 import express from 'express'
+
+console.log({ ad })
 
 exports = {}
 const app = express()
 
 app.listen(3000, () => {
-  console.log(`Server Listening on port ${port}`)
+  console.log(`Server Listening on port 3000`)
 })
 
 app.get('/', (req, res) => {
@@ -21,5 +25,4 @@ const arr = [
 
 var a = 1
 console.log(a)
-console.log({ route })
 console.log(`add('1 2') = ${add('1 2')}`)

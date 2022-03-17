@@ -1,7 +1,7 @@
-import { add } from '#/ad/adder'
+import { add } from 'src/adder'
 
 describe('adder', () => {
-  it('add ', () => {
+  it('add', () => {
     expect.hasAssertions()
     expect(add('')).toStrictEqual(0)
     expect(add('0')).toStrictEqual(0)

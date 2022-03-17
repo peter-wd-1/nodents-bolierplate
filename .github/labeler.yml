@@ -7,10 +7,6 @@ gitlab:
 github:
   - .github/**/*
 
-documentation:
-  - docs/**/*
-  - **/*.md
-
 test:
   - test/**/*
   - jest.config.js
@@ -41,7 +37,8 @@ build:
   - package-lock.json
 
 editor:
-  - .vscode/**/*
+  - .prettier.mjs
+  - .indium.json
 
 src:
   - src/**/*

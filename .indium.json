@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "program": "node",
+      "name": "Web project",
+      "type": "node",
+      "inspect-brk": true,
+      "args": "-r tsconfig-paths/register -r ts-node/register ./src/index.ts"
+    }
+  ]
+}

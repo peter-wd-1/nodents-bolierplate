@@ -1,6 +1,7 @@
 import pretify from 'prettier-eslint'
 import { readFile, writeFile } from 'fs/promises'
 import eslintConfig from './.eslintrc.cjs'
+import prettierConfig from './.prettierrc.js'
 
 export function getCurrentFileName() {
   const targetFile = process.argv[2]
@@ -50,8 +51,7 @@ export async function createFormat(targetCode = null) {
       text: sourceCode,
       eslintConfig,
       prettierOptions: {
-        bracketSpacing: true,
-        singleQuote: true,
+        ...prettierConfig,
         parser: 'typescript',
       },
     }

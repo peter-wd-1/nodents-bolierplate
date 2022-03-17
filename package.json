@@ -2,21 +2,23 @@
   "name": "nodents-bolierplate",
   "version": "1.0.0",
   "license": "MIT",
+  "main": "dist/src/index.js",
+  "author": "peter-wd",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "prepublishOnly": "yarn build",
-    "postinstall": "shx mkdir -p dist && link-module-alias",
+    "postinstall": "link-module-alias",
     "release": "cross-env HUSKY_SKIP_HOOKS=1 standard-version",
     "link-module-alias": "link-module-alias",
     "husky-skip": "cross-env HUSKY_SKIP_HOOKS=1",
-    "lint:js": "eslint --ext js --ext md",
-    "lint:ts": "eslint --ext ts --ext md",
-    "lint:code": "eslint --ext js --ext ts --ext md",
+    "lint:ts": "eslint --ext ts",
+    "lint:code": "eslint --ext ts",
     "lint:code:ci": "yarn lint:code . --format junit",
-    "lint:md": "markdownlint --ignore node_modules --ignore .git --ignore CHANGELOG.md",
-    "lint": "yarn lint:code . && yarn lint:md .",
-    "format:js": "yarn lint:js --fix",
+    "lint": "yarn lint:code . ",
     "format:ts": "yarn lint:ts --fix",
-    "format": "yarn lint:code . --fix && yarn lint:md .",
+    "format": "yarn lint:code . --fix",
+    "dev": "tsc --p ./tsconfig.json -w & nodemon ./src/index.ts",
     "test": "jest",
     "test:unit": "yarn test test/unit",
     "test:integration": "yarn test test/integration",
@@ -24,13 +26,8 @@
     "test:unit:coverage": "yarn test:coverage test/unit",
     "test:integration:coverage": "yarn test:coverage test/integration",
     "test:ci": "yarn test:coverage --ci --reporters='jest-junit'",
-    "dev:build": "concurrently 'tsc -w -i' 'nodemon dist/index.js'",
-    "dev:no-respawn": "dotenv -- ts-node-dev --transpileOnly src/index.ts",
-    "dev": "dotenv -- ts-node-dev --transpileOnly --respawn src/index.ts",
-    "build": "shx rm -rf dist/* && tsc",
-    "build:watch": "tsc -w",
-    "build:incremental": "tsc -i",
-    "start": "node dist/index.js"
+    "build": "tsc --p ./tsconfig.json",
+    "start": "node dist/src/index.js"
   },
   "_moduleAliases": {
     "#": "dist"
@@ -43,58 +40,62 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "yarn format:js",
-      "git add"
-    ],
     "*.ts": [
       "yarn format:ts",
       "git add"
-    ],
-    "*.md": [
-      "yarn lint:md"
     ]
   },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
+    "@types/express": "^4.17.13",
     "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.5",
+    "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^5.11.0",
     "commitizen": "^4.0.3",
-    "concurrently": "^4.1.2",
     "cross-env": "^6.0.0",
     "cz-conventional-changelog": "^3.0.2",
     "eslint": "^7.2.0",
-    "eslint-config-airbnb-base": "13.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-import-resolver-typescript": "^1.1.1",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^22.9.0",
+    "eslint-plugin-jest": "^26.1.1",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-markdown": "^1.0.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.29.4",
     "husky": ">=1",
-    "jest": "^24.8.0",
+    "jest": "^27.5.1",
     "jest-junit": "^7.0.0",
     "link-module-alias": "^1.2.0",
     "lint-staged": ">=8",
-    "markdownlint-cli": "^0.17.0",
     "nodemon": "^1.19.2",
     "prettier": "^1.18.2",
-    "shx": "^0.3.2",
+    "prettier-eslint": "^13.0.0",
     "standard-version": "^7.0.0",
-    "ts-jest": "^24.1.0",
-    "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.6.3"
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
   },
   "dependencies": {
-    "eslint-config-airbnb": "^19.0.4",
+    "dotenv": "^16.0.0",
     "express": "^4.17.3"
   },
-  "main": "dist/index.js",
-  "typescript:main": "src/index.ts",
-  "files": [
-    "dist"
-  ]
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
+    "ext": "ts, js"
+  }
 }
