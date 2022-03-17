@@ -36,12 +36,12 @@ jobs:
           --coverageDirectory ./reports/unit-coverage \
           test/unit
 
-      - name: Upload Unit Test Coverage To Codecov
-        uses: codecov/codecov-action@v1.0.2
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          file: reports/unit-coverage/*.json
-          flags: unit
+      # - name: Upload Unit Test Coverage To Codecov
+      #   uses: codecov/codecov-action@v1.0.2
+      #   with:
+      #     token: ${{secrets.CODECOV_TOKEN}}
+      #     file: reports/unit-coverage/*.json
+      #     flags: unit
 
       # - name: Integration Test
       #   run: |

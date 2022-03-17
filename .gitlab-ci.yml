@@ -19,7 +19,6 @@ lint:
   stage: lint
   script:
     - yarn lint:js . --format junit --output-file ./reports/lint.xml
-    - yarn lint:md .
   artifacts:
     reports:
       junit: 'reports/lint.xml'
