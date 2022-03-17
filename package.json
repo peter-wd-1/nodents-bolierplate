@@ -8,15 +8,11 @@
     "release": "cross-env HUSKY_SKIP_HOOKS=1 standard-version",
     "link-module-alias": "link-module-alias",
     "husky-skip": "cross-env HUSKY_SKIP_HOOKS=1",
-    "lint:js": "eslint --ext js --ext md",
-    "lint:ts": "eslint --ext ts --ext md",
-    "lint:code": "eslint --ext js --ext ts --ext md",
+    "lint:code": "eslint --ext ts",
     "lint:code:ci": "yarn lint:code . --format junit",
-    "lint:md": "markdownlint --ignore node_modules --ignore .git --ignore CHANGELOG.md",
-    "lint": "yarn lint:code . && yarn lint:md .",
-    "format:js": "yarn lint:js --fix",
+    "lint": "yarn lint:code .",
     "format:ts": "yarn lint:ts --fix",
-    "format": "yarn lint:code . --fix && yarn lint:md .",
+    "format": "yarn lint:code . --fix",
     "test": "jest",
     "test:unit": "yarn test test/unit",
     "test:integration": "yarn test test/integration",
@@ -25,8 +21,8 @@
     "test:integration:coverage": "yarn test:coverage test/integration",
     "test:ci": "yarn test:coverage --ci --reporters='jest-junit'",
     "dev:build": "concurrently 'tsc -w -i' 'nodemon dist/index.js'",
-    "dev:no-respawn": "dotenv -- ts-node-dev --transpileOnly src/index.ts",
-    "dev": "dotenv -- ts-node-dev --transpileOnly --respawn src/index.ts",
+    "dev:no-respawn": "ts-node-dev --transpileOnly src/index.ts",
+    "dev": "ts-node-dev --transpileOnly --respawn src/index.ts",
     "build": "shx rm -rf dist/* && tsc",
     "build:watch": "tsc -w",
     "build:incremental": "tsc -i",
@@ -97,8 +93,7 @@
   "dependencies": {
     "express": "^4.17.3"
   },
-  "main": "dist/index.js",
-  "typescript:main": "src/index.ts",
+  "main": "dist/src/index.js",
   "files": [
     "dist"
   ]

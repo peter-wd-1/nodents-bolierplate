@@ -2,6 +2,7 @@ import { add } from '#/ad/adder'
 
 describe('adder', () => {
   it('add ', () => {
+    console.log('this is testa', add)
     expect.hasAssertions()
     expect(add('')).toStrictEqual(0)
     expect(add('0')).toStrictEqual(0)

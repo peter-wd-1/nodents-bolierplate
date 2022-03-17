@@ -1,6 +1,3 @@
-circleci:
-  - .circleci/**/*
-
 gitlab:
   - .gitlab-ci.yml
 
@@ -41,7 +38,7 @@ build:
   - package-lock.json
 
 editor:
-  - .vscode/**/*
+  - .prettier.mjs
 
 src:
   - src/**/*
