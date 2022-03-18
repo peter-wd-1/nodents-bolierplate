@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "yarn build",
-    "postinstall": "mkdir -p dist && link-module-alias",
+    "postinstall": "mkdir -p dist/src && link-module-alias",
     "release": "cross-env HUSKY_SKIP_HOOKS=1 standard-version",
     "link-module-alias": "link-module-alias",
     "husky-skip": "cross-env HUSKY_SKIP_HOOKS=1",
