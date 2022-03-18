@@ -6,12 +6,10 @@ github:
 
 documentation:
   - docs/**/*
-  - **/*.md
 
 test:
   - test/**/*
   - jest.config.js
-  - .codecov.yml
 
 lint:
   - .eslint*

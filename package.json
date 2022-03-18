@@ -80,16 +80,9 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "yarn format:js",
-      "git add"
-    ],
     "*.ts": [
       "yarn format:ts",
       "git add"
-    ],
-    "*.md": [
-      "yarn lint:md"
     ]
   },
   "nodemonConfig": {
