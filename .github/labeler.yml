@@ -25,7 +25,7 @@ config:
 env:
   - .env.*
 
-git:
+it:
   - .gitignore
   - .gitattributes
   - .gitmodules
