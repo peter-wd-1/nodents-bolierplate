@@ -44,22 +44,16 @@ Check =.prettier.mjs= file.
     #+end_src
 
 ** Node Debugger
-- indium
-  =.indium.json= file
-#+begin_src json
-{
-  "configurations": [
-    {
-      "program": "node", // important
-      "name": "Web project",
-      "type": "node",
-      "inspect-brk": true
-    }
-  ]
-}
-#+end_src
-- lunch debugger
-  =indium-launch=
+- dap mode
+  - Run =M-x dap-debug= and select *complied js file*
+  - installation
+    In doom emacs =init.el=, enable =tools: ( debugger +lsp )= I had to manually install vscode node debugger.
+    And add code:
+    #+begin_src lisp
+(add-hook 'typescript-mode-hook (lambda ()
+                                  (require 'dap-node)
+                                  (dap-node-setup)))
+    #+end_src
 
 * Testing
 ** Jest
