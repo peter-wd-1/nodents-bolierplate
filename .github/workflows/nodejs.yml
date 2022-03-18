@@ -24,10 +24,10 @@ jobs:
           CI: true
 
       - name: Unit Test
-        run: |
-          yarn test:ci \
-          --coverageDirectory ./reports/unit-coverage \
-          __test__/unit
+        # run: |
+        #   yarn test:ci \
+        #   --coverageDirectory ./reports/unit-coverage \
+        #   __test__/unit
         env:
           JEST_JUNIT_OUTPUT: 'reports/unit.xml'
         run: |
