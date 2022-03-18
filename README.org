@@ -46,6 +46,12 @@ Check =.prettier.mjs= file.
 ** Node Debugger
 - dap mode
   - Run =M-x dap-debug= and select *complied js file*
+  - features
+    - =dap-breakpoint-toggle=
+    - =dap-breakpoint-condition=
+    - =dap-breakpoint-log-message=
+    - =dap-delete-sessions-all=
+    - =dap-disconnect=
   - installation
     In doom emacs =init.el=, enable =tools: ( debugger +lsp )= I had to manually install vscode node debugger.
     And add code:
