@@ -21,7 +21,7 @@
     "test:integration:coverage": "yarn test:coverage __test__/integration",
     "test:ci": "yarn test:coverage --ci --reporters='jest-junit'",
     "dev": "tsc --p ./tsconfig.json -w & nodemon ./src/index.ts",
-    "build": "rm -rf dist/* && tsc",
+    "build": "rm -rf dist/* && tsc --p ./tsconfig.json",
     "start": "node dist/src/index.js"
   },
   "dependencies": {

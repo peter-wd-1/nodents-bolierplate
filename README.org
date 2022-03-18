@@ -1,0 +1,116 @@
+#+TITLE: Express Ts Project Setup And Emacs
+
+* Introduction
+This is my personal setup for TS project with technology stacks beflow:
+- Emacs
+- Nodejs
+- Typescript
+- Jest
+- ESlint w/ Prettier
+- Docker
+- Git Actions/CI for checking above setup
+
+* Emacs IDE Setup
+** ESlint > Prettier Automation
+*** Eslint Prettier Middleware
+I have wrote a small middleware to use =prettier-eslint= for Emacs editor. This middleware check original file if the code is linted. It uses =prettify= with =prettier-eslint=.
+Check =.prettier.mjs= file.
+- Eslint + Prettier
+  - Run prettier middler-ware on save from emacs
+    #+begin_src lisp
+(add-hook 'typescript-mode-hook (lambda ()
+                                  (add-hook 'after-save-hook 'run-prettier-for-ts-projects nil t)
+                                  (flycheck-select-checker 'javascript-eslint)))
+
+;; setup my custome prettier nodejs program
+(defun find-my-prettier (current-path)
+  (interactive)
+  (message "PRETTER LOG searching directory: %s" current-path)
+  (cond
+   ((member ".prettier.mjs" (directory-files current-path))
+    (message "PRETTER LOG FOUND FILE prettier.mjs @: %s" current-path)
+    current-path)
+   ((string= current-path "/") nil)
+   (t (find-my-prettier (file-name-directory (directory-file-name current-path))))))
+
+(defun run-prettier-for-ts-projects ()
+  (interactive)
+  (defvar running-command-parameter (concat (find-my-prettier (file-name-directory buffer-file-name)) ".prettier.mjs"))
+  (defvar running-process-buffer-name "*run eslint-prettier*")
+  (progn (call-process
+          "node" nil "Prettier Js setup" nil
+          running-command-parameter buffer-file-name)
+         (revert-buffer t t t)))
+    #+end_src
+
+** Node Debugger
+- indium
+  =.indium.json= file
+#+begin_src json
+{
+  "configurations": [
+    {
+      "program": "node", // important
+      "name": "Web project",
+      "type": "node",
+      "inspect-brk": true
+    }
+  ]
+}
+#+end_src
+- lunch debugger
+  =indium-launch=
+
+* Testing
+** Jest
+- unit test
+  =yarn run test:unit=
+- test with coverage
+  =yarn run test:coverage=
+- jest linting setup
+  #+begin_src javascript
+module.exports = {
+  coverageReporters: ['json', 'json-summary', 'text', 'lcov', 'clover'],
+  moduleDirectories: ['node_modules', 'src', '<rootDir>'],
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  moduleNameMapper: {
+    '^@app/(.*)$': '<rootDir>/src/$1',
+  },
+  preset: 'ts-jest',
+  roots: ['__test__'],
+  testEnvironment: 'node',
+  transform: {
+    '^.+\\.(ts|tsx)?$': 'ts-jest',
+  },
+}
+  #+end_src
+  Have to setup =moduleNameMapper= to reflect a =path= setup in =tsconfig.json=
+  #+begin_src json
+    "paths": {
+      "@app/*": ["./src/*"]
+    },
+  #+end_src
+  The reason I included test file in compile process is to use this absolute path and LSP autocompletion.
+
+* Building
+you can run =yarn run build= to build file in =dist= folder and this folder should always be exist even though it contains no files. Refer to folling issue:
+** =tsc= absolute path issue
+When tsc build the project it cannot resolve the absolute path in tsconfig.json.
+Should use =link-module-alias= for linking build files into node_module so that production files can refer to its source files from symbolic link in node_module.
+#+begin_src json
+"_moduleAliases": {
+  "@app": "dist/src"
+},
+#+end_src
+
+Alternately, next setup can do the work. But this resolves path during runtime.
+#+begin_src json
+"build": "tsc --p ./tsconfig.json",
+"start": "ts-node -r tsconfig-paths/register ./dist/src/index.js",
+#+end_src
+
+Thus, first solution is prioritized.
+There are trade-offs choosing between them:
+Method 1. Should use =#= symbolic link to import modules.
+Method 2. Little slower than first method.
+Method 3. Use environment valuable to use Method 1 and 2. But this doesn't give us grate benefit. So Method 1 is adopted.
