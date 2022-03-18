@@ -11,8 +11,9 @@ This is my personal setup for TS project with technology stacks beflow:
 - Git Actions/CI for checking above setup
 
 * Emacs IDE Setup
-** ESlint > Prettier Automation
-*** Eslint Prettier Middleware
+** ESlint
+Flycheck pulls info from project config with =javascript-eslint checker=. =.prettiercr.js= will use project config and project prettier setup.
+*** Prettier Automation Eslint, Prettier Middleware
 I have wrote a small middleware to use =prettier-eslint= for Emacs editor. This middleware check original file if the code is linted. It uses =prettify= with =prettier-eslint=.
 Check =.prettier.mjs= file.
 - Eslint + Prettier
@@ -42,11 +43,13 @@ Check =.prettier.mjs= file.
           running-command-parameter buffer-file-name)
          (revert-buffer t t t)))
     #+end_src
+*** Flycheck with javascript-eslint checker
+Use =javascript-eslint= and it will use project eslint configuration.
 
 ** Node Debugger
 - dap mode
   - Run =M-x dap-debug= and select *complied js file*
-  - features
+  - features ( run with =M-x= )
     - =dap-breakpoint-toggle=
     - =dap-breakpoint-condition=
     - =dap-breakpoint-log-message=
@@ -62,38 +65,39 @@ Check =.prettier.mjs= file.
     #+end_src
 
 * Testing
-** Jest
-- unit test
-  =yarn run test:unit=
-- test with coverage
-  =yarn run test:coverage=
-- jest linting setup
-  #+begin_src javascript
-module.exports = {
-  coverageReporters: ['json', 'json-summary', 'text', 'lcov', 'clover'],
-  moduleDirectories: ['node_modules', 'src', '<rootDir>'],
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
-  moduleNameMapper: {
-    '^@app/(.*)$': '<rootDir>/src/$1',
-  },
-  preset: 'ts-jest',
-  roots: ['__test__'],
-  testEnvironment: 'node',
-  transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
-  },
-}
-  #+end_src
-  Have to setup =moduleNameMapper= to reflect a =path= setup in =tsconfig.json=
-  #+begin_src json
-    "paths": {
-      "@app/*": ["./src/*"]
+- jest
+  - unit test
+    =yarn run test:unit=
+  - test with coverage
+    =yarn run test:coverage=
+  - jest linting setup
+    #+begin_src javascript
+  module.exports = {
+    coverageReporters: ['json', 'json-summary', 'text', 'lcov', 'clover'],
+    moduleDirectories: ['node_modules', 'src', '<rootDir>'],
+    moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+    moduleNameMapper: {
+      '^@app/(.*)$': '<rootDir>/src/$1',
     },
-  #+end_src
-  The reason I included test file in compile process is to use this absolute path and LSP autocompletion.
+    preset: 'ts-jest',
+    roots: ['__test__'],
+    testEnvironment: 'node',
+    transform: {
+      '^.+\\.(ts|tsx)?$': 'ts-jest',
+    },
+  }
+    #+end_src
+    Have to setup =moduleNameMapper= to reflect a =path= setup in =tsconfig.json=
+    #+begin_src json
+      "paths": {
+        "@app/*": ["./src/*"]
+      },
+    #+end_src
+    The reason I included test file in compile process is to use this absolute path and LSP autocompletion.
 
 * Building
-you can run =yarn run build= to build file in =dist= folder and this folder should always be exist even though it contains no files. Refer to folling issue:
+Run =yarn run build= to build file in =dist/src= folder and this folder should always be exist even though it contains no files.
+That is why package.json defines preinstall setup for creating this folder Refer to folling issue:
 ** =tsc= absolute path issue
 When tsc build the project it cannot resolve the absolute path in tsconfig.json.
 Should use =link-module-alias= for linking build files into node_module so that production files can refer to its source files from symbolic link in node_module.
@@ -114,3 +118,12 @@ There are trade-offs choosing between them:
 Method 1. Should use =#= symbolic link to import modules.
 Method 2. Little slower than first method.
 Method 3. Use environment valuable to use Method 1 and 2. But this doesn't give us grate benefit. So Method 1 is adopted.
+
+* Lint
+- Eslint
+  - Run =yarn run lint=
+  - =.eslintrc.cjs= file setup
+- Connect =prettierrc.js= setup with middleware =.prettier.mjs=
+
+* Dev
+Run =yarn run dev=
