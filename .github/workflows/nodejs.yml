@@ -24,17 +24,17 @@ jobs:
           CI: true
 
       - name: Unit Test
-        # run: |
-        #   yarn test:ci \
-        #   --coverageDirectory ./reports/unit-coverage \
-        #   test/unit
-        # env:
-        #   JEST_JUNIT_OUTPUT: 'reports/unit.xml'
+        run: |
+          yarn test:ci \
+          --coverageDirectory ./reports/unit-coverage \
+          __test__/unit
+        env:
+          JEST_JUNIT_OUTPUT: 'reports/unit.xml'
         run: |
           yarn test:coverage \
           --ci \
           --coverageDirectory ./reports/unit-coverage \
-          test/unit
+          __test__/unit
 
       # - name: Upload Unit Test Coverage To Codecov
       #   uses: codecov/codecov-action@v1.0.2
