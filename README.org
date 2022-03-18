@@ -10,7 +10,7 @@ This is my personal setup for TS project with technology stacks beflow:
 - Docker
 - Git Actions/CI for checking above setup
 
-* Emacs IDE Setup
+* Setting Emacs IDE
 ** ESlint
 Flycheck pulls info from project config with =javascript-eslint checker=. =.prettiercr.js= will use project config and project prettier setup.
 *** Prettier Automation Eslint, Prettier Middleware
@@ -56,13 +56,12 @@ Use =javascript-eslint= and it will use project eslint configuration.
     - =dap-delete-sessions-all=
     - =dap-disconnect=
   - installation
-    In doom emacs =init.el=, enable =tools: ( debugger +lsp )= I had to manually install vscode node debugger.
-    And add code:
-    #+begin_src lisp
+    - In doom emacs =init.el=, enable =tools: ( debugger +lsp )= I had to manually install vscode node debugger. And add code:
+      #+begin_src lisp
 (add-hook 'typescript-mode-hook (lambda ()
                                   (require 'dap-node)
                                   (dap-node-setup)))
-    #+end_src
+      #+end_src
 
 * Testing
 - jest
@@ -101,6 +100,7 @@ That is why package.json defines preinstall setup for creating this folder Refer
 ** =tsc= absolute path issue
 When tsc build the project it cannot resolve the absolute path in tsconfig.json.
 Should use =link-module-alias= for linking build files into node_module so that production files can refer to its source files from symbolic link in node_module.
+In package.json:
 #+begin_src json
 "_moduleAliases": {
   "@app": "dist/src"
@@ -119,11 +119,11 @@ Method 1. Should use =#= symbolic link to import modules.
 Method 2. Little slower than first method.
 Method 3. Use environment valuable to use Method 1 and 2. But this doesn't give us grate benefit. So Method 1 is adopted.
 
-* Lint
+* Linting
 - Eslint
   - Run =yarn run lint=
   - =.eslintrc.cjs= file setup
 - Connect =prettierrc.js= setup with middleware =.prettier.mjs=
 
-* Dev
+* Developing
 Run =yarn run dev=
