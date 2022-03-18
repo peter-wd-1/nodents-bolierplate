@@ -3,7 +3,7 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src', '<rootDir>'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   moduleNameMapper: {
-    '^#/(.*)$': '<rootDir>/src/$1',
+    '^@app/(.*)$': '<rootDir>/src/$1',
   },
   preset: 'ts-jest',
   roots: ['__test__'],
