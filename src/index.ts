@@ -1,15 +1,14 @@
-import { add } from '#/ad/adder'
-import { add as d } from '#/ad/adt/adder'
-import a from 'adda/imptest'
+import { add } from '@app/ad/adder'
+import { a } from '@app/adda/imptest'
 import express from 'express'
 
 exports = {}
 const app = express()
 
-console.log({ d, a })
+console.log({ a })
 
 app.listen(3000, () => {
-  console.log(`Server Listening on port ${port}`)
+  console.log('Server Listening on port 3000')
 })
 
 app.get('/', (req, res) => {
@@ -23,7 +22,4 @@ const arr = [
   [4, 5],
 ]
 
-var a = 1
-console.log(a)
-console.log({ route })
-console.log(`add('1 2') = ${add('1 2')}`)
+console.log(`add('1 2') = ${add('1 2')}`, arr)

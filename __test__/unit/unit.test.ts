@@ -1,5 +1,4 @@
-import { add } from '#/ad/adder'
-import { a } from 'adda/imptest'
+import { add } from '@app/ad/adder'
 
 describe('adder', () => {
   it('add ', () => {
@@ -11,6 +10,5 @@ describe('adder', () => {
     expect(add(' 1  2     3 ')).toStrictEqual(6)
     expect(add('-1 -4 2')).toStrictEqual(-3)
     expect(add('+2 -7')).toStrictEqual(-5)
-    expect(a).toBe(10)
   })
 })
