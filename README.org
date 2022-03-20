@@ -1,4 +1,4 @@
-#+TITLE: Nodejs + Ts Project Setup And Emacs
+#+TITLE: Nodejs + Typescript Project Setup And Emacs
 
 * Introduction
 This is my personal setup for TS project with technology stacks beflow:
