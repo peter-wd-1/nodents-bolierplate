@@ -7,7 +7,7 @@ This is my personal setup for TS project with technology stacks beflow:
 - Typescript
 - Jest
 - ESlint w/ Prettier
-- Docker
+- Docker : on the way to deliver!
 - Git Actions/CI for checking above setup
 
 * Setting Emacs IDE
