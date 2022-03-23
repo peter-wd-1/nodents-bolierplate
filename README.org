@@ -96,7 +96,7 @@ Use =javascript-eslint= and it will use project eslint configuration.
 
 * Building
 Run =yarn run build= to build file in =dist/src= folder and this folder should always be exist even though it contains no files.
-That is why package.json defines preinstall setup for creating this folder Refer to folling issue:
+That is why package.json defines preinstall setup for creating this folder. (Refer to following issue):
 ** =tsc= absolute path issue
 When tsc build the project it cannot resolve the absolute path in tsconfig.json.
 Should use =link-module-alias= for linking build files into node_module so that production files can refer to its source files from symbolic link in node_module.
