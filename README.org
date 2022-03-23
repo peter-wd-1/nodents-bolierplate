@@ -12,9 +12,9 @@ This is my personal setup for TS project with technology stacks beflow:
 
 * Setting Emacs IDE
 ** ESlint
-Flycheck pulls info from project config with =javascript-eslint checker=. =.prettiercr.js= will use project config and project prettier setup.
+Flycheck pulls info from project config with =javascript-eslint checker=. =.prettiercr.mjs= will use project config and project prettier setup.
 *** Prettier Automation Eslint, Prettier Middleware
-I have wrote a small middleware to use =prettier-eslint= for Emacs editor. This middleware check original file if the code is linted. It uses =prettify= with =prettier-eslint=.
+I have wrote a small middleware to use =prettier-eslint= for Emacs editor. This middleware checks a original source file if the it's linted. It uses =prettify= with =prettier-eslint=.
 Check =.prettier.mjs= file.
 - Eslint + Prettier
   - Run prettier middler-ware on save from emacs
@@ -115,9 +115,9 @@ Alternately, next setup can do the work. But this resolves path during runtime.
 
 Thus, first solution is prioritized.
 There are trade-offs choosing between them:
-Method 1. Should use =#= symbolic link to import modules.
+Method 1. Should use =@app= symbolic link to import modules.
 Method 2. Little slower than first method.
-Method 3. Use environment valuable to use Method 1 and 2. But this doesn't give us grate benefit. So Method 1 is adopted.
+Method 3. Use environment valuable to use Method 1 and 2. But this doesn't give us a great benefit. So Method 1 is adopted.
 
 * Linting
 - Eslint
