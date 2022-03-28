@@ -22,4 +22,4 @@ const arr = [
   [4, 5],
 ]
 
-console.log(`add('1 2') = ${add('1 2')}`, arr)
+console.log(`Detailed : add('1 2') = ${add('1 2')}`, arr)
