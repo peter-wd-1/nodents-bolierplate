@@ -1,17 +1,39 @@
-name: CI
+name: CICD
 
-on: [push]
+on:
+  push:
+    branches: ['main']
 
 jobs:
-  build:
+  CI:
+    if: startsWith(github.event.head_commit.message, 'CI')
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [16.9.1]
 
+    env:
+      COMMIT_MSG: ${{ github.event.head_commit.message }}
+
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CI_TOKEN }}
+          submodules: true
+
+      - name: Set deply folder env
+        run: |
+          if ! [[ $(echo $COMMIT_MSG | cut -d' ' -f 2) =~ ^(.+)\/([^\/]+)$ ]]
+          then
+            echo "::error title=error::No file path detected in commit message. Specify the folder path as a first word of commit message. If you are using single folder then use ./"
+            exit 1
+          fi
+          echo "::set-output name=folder::$(echo $COMMIT_MSG | cut -d' ' -f 2)"
+        id: set-path-to-src
+
+      - name: Check deploy folder
+        run: echo ${{ steps.set-path-to-src.outputs.folder }}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -19,15 +41,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
+        working-directory: ./${{ steps.set-path-to-src.outputs.folder }}
         run: yarn install
-        env:
-          CI: true
 
       - name: Unit Test
-        # run: |
-        #   yarn test:ci \
-        #   --coverageDirectory ./reports/unit-coverage \
-        #   __test__/unit
+        working-directory: ./${{ steps.set-path-to-src.outputs.folder }}
         env:
           JEST_JUNIT_OUTPUT: 'reports/unit.xml'
         run: |
@@ -59,25 +77,43 @@ jobs:
       #     flags: integration
 
       - name: Lint
+        working-directory: ./${{ steps.set-path-to-src.outputs.folder }}
         # run: yarn lint:code:ci --output-file ./reports/lint.xml && yarn lint:md .
         run: yarn lint
 
       - name: Build
+        working-directory: ./${{ steps.set-path-to-src.outputs.folder }}
         # run: yarn lint:code:ci --output-file ./reports/lint.xml && yarn lint:md .
         run: yarn build
 
-      # - name: ConfigureAWS
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-east-1
+  CD:
+    if: startsWith(github.event.head_commit.message, 'CICD')
+    needs: CI
+    runs-on: ubuntu-latest
 
-      # - name: Deploy
-      #   id: deploy
-      #   run: |
-      #     aws deploy {} \
-      #     --application-name {} \
-      #     --deployment-group-name {} \
-      #     --deployment-config-name {} \
-      #     --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+    strategy:
+      matrix:
+        node-version: [16.9.1]
+
+    env:
+      APP_NAME : application
+      DEPLOY_GROUP : deploy-group-name
+      DEPLOY_CONFIG : deploy-config-name
+      AWS_REGION : us-east-1
+
+    steps:
+      - name: ConfigureAWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: env.AWS_REGION
+
+      - name: Deploy
+        id: deploy
+        run: |
+          aws deploy create-deployment \
+          --application-name ${{ env.APP_NAME }} \
+          --deployment-group-name ${{ env.DEPLOY_GROUP }} \
+          --deployment-config-name ${{ env.DEPLOY_CONFIG }} \
+          --github-location repository=${{ github.repository }},commitId=${{ github.sha }}

@@ -13,7 +13,6 @@ app.listen(3000, () => {
 
 app.get('/', (req, res) => {
   res.send('hello!')
-  process.exit(1)
 })
 
 const arr = [

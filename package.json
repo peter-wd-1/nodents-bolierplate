@@ -5,9 +5,7 @@
   "scripts": {
     "prepublishOnly": "yarn build",
     "postinstall": "mkdir -p dist/src && link-module-alias",
-    "release": "cross-env HUSKY_SKIP_HOOKS=1 standard-version",
     "link-module-alias": "link-module-alias",
-    "husky-skip": "cross-env HUSKY_SKIP_HOOKS=1",
     "lint:code": "eslint --ext ts",
     "lint:code:ci": "yarn lint:code . --format junit",
     "lint": "yarn lint:code .",
@@ -28,17 +26,11 @@
     "express": "^4.17.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.3",
-    "@commitlint/config-conventional": "^16.2.1",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.11.0",
-    "commitizen": "^4.0.3",
-    "concurrently": "^7.0.0",
-    "cross-env": "^7.0.3",
-    "cz-conventional-changelog": "^3.0.2",
     "eslint": "^8.11.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -50,12 +42,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
-    "husky": ">=1",
     "jest": "^27.5.1",
     "jest-junit": "^13.0.0",
     "link-module-alias": "^1.2.0",
-    "lint-staged": ">=12.3.7",
-    "markdownlint-cli": "^0.31.1",
     "nodemon": "^2.0.15",
     "prettier": "^2.6.0",
     "prettier-eslint": "^13.0.0",
@@ -71,19 +60,6 @@
   ],
   "_moduleAliases": {
     "@app": "dist/src"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "yarn format:ts",
-      "git add"
-    ]
   },
   "nodemonConfig": {
     "ignore": [
